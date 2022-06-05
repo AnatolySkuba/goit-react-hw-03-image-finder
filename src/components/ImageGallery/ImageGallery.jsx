@@ -24,10 +24,11 @@ export default class ImageGallery extends Component {
     searchData: PropTypes.string.isRequired,
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const prevSearchData = prevProps.searchData;
     const nextSearchData = this.props.searchData;
     if (prevSearchData !== nextSearchData) {
+      this.setState({ images: [] });
       try {
         const { page } = this.state;
         const response = api.fetchImagesWithQuery(nextSearchData, page);
@@ -35,7 +36,7 @@ export default class ImageGallery extends Component {
         response.then(data => {
           data.data.hits.length === 0
             ? toast.error('Nothing found')
-            : data.data.hits.map(({ id, webformatURL, largeImageURL }) => {
+            : data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
                 !images.some(image => image.id === id) &&
                   this.setState(prevState => ({
                     images: [
@@ -62,7 +63,7 @@ export default class ImageGallery extends Component {
     try {
       const nextResponse = api.fetchImagesWithQuery(searchData, page);
       nextResponse.then(data => {
-        data.data.hits.map(({ id, webformatURL, largeImageURL }) => {
+        data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
           !images.some(image => image.id === id) &&
             this.setState(prevState => ({
               nextImages: [
