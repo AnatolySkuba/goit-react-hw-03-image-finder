@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import s from './ImageGallery.module.css';
-import api from 'services/api';
+import fetchImagesWithQuery from 'services/api';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader/Loader';
@@ -31,7 +31,7 @@ export default class ImageGallery extends Component {
       this.setState({ images: [] });
       try {
         const { page } = this.state;
-        const response = api.fetchImagesWithQuery(nextSearchData, page);
+        const response = fetchImagesWithQuery(nextSearchData, page);
         let { images } = this.state;
         response.then(data => {
           data.data.hits.length === 0
@@ -61,7 +61,7 @@ export default class ImageGallery extends Component {
     page++;
     this.setState({ isLoading: true });
     try {
-      const nextResponse = api.fetchImagesWithQuery(searchData, page);
+      const nextResponse = fetchImagesWithQuery(searchData, page);
       nextResponse.then(data => {
         data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
           !images.some(image => image.id === id) &&
