@@ -1,9 +1,9 @@
 import s from './ImageGalleryItem.module.css';
 import PropTypes from 'prop-types';
 
-export default function ImageGalleryItem({ images, openModal }) {
-  return images.map(({ id, webformatURL }, index) => (
-    <li key={id} className={s.ImageGalleryItem}>
+export default function ImageGalleryItem({ webformatURL, index, openModal }) {
+  return (
+    <li className={s.ImageGalleryItem}>
       <img
         className={s.ImageGalleryItem__image}
         src={webformatURL}
@@ -11,15 +11,11 @@ export default function ImageGalleryItem({ images, openModal }) {
         alt=""
       />
     </li>
-  ));
+  );
 }
 
 ImageGalleryItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  webformatURL: PropTypes.string.isRequired,
   openModal: PropTypes.func.isRequired,
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      webformatURL: PropTypes.string.isRequired,
-    })
-  ),
 };

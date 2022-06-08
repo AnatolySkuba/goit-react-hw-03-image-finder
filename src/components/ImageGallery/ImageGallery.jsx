@@ -1,10 +1,29 @@
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import s from './ImageGallery.module.css';
 import PropTypes from 'prop-types';
 
-export default function ImageGallery({ children }) {
-  return <ul className={s.ImageGallery}>{children}</ul>;
+export default function ImageGallery({ images, openModal }) {
+  return (
+    <ul className={s.ImageGallery}>
+      {images.map(({ id, webformatURL }, index) => (
+        <ImageGalleryItem
+          key={id}
+          webformatURL={webformatURL}
+          index={index}
+          openModal={openModal}
+        />
+      ))}
+    </ul>
+  );
 }
+fixed after review
 
 ImageGallery.propTypes = {
-  children: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+    })
+  ),
 };
